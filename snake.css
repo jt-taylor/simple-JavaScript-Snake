@@ -17,6 +17,7 @@ body {
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
+    outline: blueviolet;
 }
 
 .grid div {
@@ -30,7 +31,7 @@ body {
 }
 
 .snake {
-    background: blue;
+    background: green;
 }
 
 .apple {
