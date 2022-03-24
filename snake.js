@@ -145,6 +145,8 @@ function consumeApple(squares, tail) {
         score_value += 100;
         scoreDisplay.textContent = score_value;
         interval_timer = interval_timer * .8;
+        if (interval_timer <= 400)
+            interval_timer = 400;
     }
     //interval logic;
     clearInterval(interval);
