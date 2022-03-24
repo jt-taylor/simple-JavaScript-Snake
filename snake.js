@@ -27,16 +27,46 @@ document.addEventListener("DOMContentLoaded", function() {
 // this doesn't want to work either
 // and i'm not sure why
 function keyDownHandler (event) {
-    if (event.keycode == 37) 
+    if (event.keycode == 37)  {
         direction = -1;
-    else if (event.keycode == 38)
+    }
+    else if (event.keycode == 38) {
         direction = -10;
-    else if (event.keycode == 39)
+    }
+    else if (event.keycode == 39) {
         direction = 1;
-    else if (event.keycode == 40)
+    }
+    else if (event.keycode == 40) {
         direction = 10;
+    }
 }
-
+window.addEventListener("keydown", function(event) {
+    if (event.defaultPrevented) {
+      return; // Do nothing if event already handled
+    }
+  
+    switch(event.code) {
+      case "KeyS":
+      case "ArrowDown":
+        direction = 10;
+        break;
+      case "KeyW":
+      case "ArrowUp":
+        direction = -10;
+        break;
+      case "KeyA":
+      case "ArrowLeft":
+        // Handle "turn left"
+        direction = -1;
+        break;
+      case "KeyD":
+      case "ArrowRight":
+        // Handle "turn right"
+        direction = 1;
+        break;
+    }
+    event.preventDefault();
+}, true);
 function createBoard() {
 popup.style.display = "none";
 for (let i = 0; i < 100; i++) {
