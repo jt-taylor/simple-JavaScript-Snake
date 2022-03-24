@@ -32,6 +32,8 @@ body {
 
 .snake {
     background: green;
+    outline: black;
+    border-color: black;
 }
 
 .apple {

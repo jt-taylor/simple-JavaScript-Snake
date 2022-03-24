@@ -18,7 +18,7 @@ let interval_timer = 0;
 let interval = 0;
 
 document.addEventListener("DOMContentLoaded", function() {
-    //document.addEventListener("keyup", control);
+    document.addEventListener("keyup", control);
     createBoard();
     startGame();
     //retry.addEventListener("click", replay);
@@ -33,7 +33,7 @@ for (let i = 0; i < 100; i++) {
 }
 function startGame(){
     let squares = document.querySelectorAll(".grid div");
-    //init apple randomApple(squares);
+    randomApple(squares);
     direction = 1;
     scoreDisplay.innerHTML = score_value;
     current_snake = [2, 1, 0];
@@ -45,7 +45,7 @@ function startGame(){
 }
 function moveOutCome() {
     let squares = document.querySelectorAll(".grid div");
-    if (collisionCheck(squares)) {
+    if (collisionCheck(squares) == false) {
         alert("You ran into something");
         popup.style.display = "flex";
         return //resetInterval(interval);
@@ -62,18 +62,18 @@ function updateSnake(squares) {
 }
 function collisionCheck(squares) {
     if (direction == 1) {//right
-        if(current_snake % 10 == 9)
+        if(current_snake[0] % 10 == 9)
             return false;
     }
     else if (direction == -1) {//left
         if (current_snake[0] % 10 == 0)
             return false;
     }
-    else if (direction = 10) {//down
+    else if (direction == 10) {//down
         if (current_snake[0] >= 90)
             return false;
     }
-    else if (direction = -10) {//up
+    else if (direction == -10) {//up
         if(current_snake[0] <= 9)
             return false;
     }
@@ -81,3 +81,35 @@ function collisionCheck(squares) {
         return false;
     return true;
 }
+function randomApple(squares) {
+    let appleIndex = Math.floor(Math.random() * 100);
+    while(squares[appleIndex].classList.contains(".snake"));
+        appleIndex = Math.floor(Math.random() * 100);
+    squares[appleIndex].classList.add("apple");
+}
+function consumeApple(squares, tail) {
+    if (squares[current_snake[0]].classList.contains("apple")) {
+        squares[current_snake[0]].classList.remove("apple");
+        squares[tail].classList.add("snake");
+        current_snake.push(tail);
+        randomApple(squares);
+        score_value += 100;
+        scoreDisplay.textContent = score_value;
+        //interval logic;
+        //. reset interval;
+        // update interval time;
+        // update interval;
+    }
+}
+function control(keypress) {
+    if (keypress.keycode === 37) { // left arrow
+        direction = -1;
+    } else if (keypress.keycode === 38) { // up arrow
+        direction = -10;
+    } else if (keypress.keycode === 39) { // right arrow
+        direction = 1;
+    } else if (keypress.keycode === 40) { // down arrow
+        direction = 10;
+    }
+}
+
