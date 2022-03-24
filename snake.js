@@ -14,14 +14,14 @@ let current_snake = [2, 1, 0];
 let direction = 1;
 let score_value = 0;
 let speed = .7;
-let interval_timer = 0;
+let interval_timer = 100;
 let interval = 0;
 
 document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("keyup", control);
     createBoard();
     startGame();
-    //retry.addEventListener("click", replay);
+    retry.addEventListener("click", replay);
 });
 
 function createBoard() {
@@ -38,17 +38,23 @@ function startGame(){
     scoreDisplay.innerHTML = score_value;
     current_snake = [2, 1, 0];
     curr_index = 0;
+    interval_timer = 700;
     current_snake.forEach(function(index) {
         squares[index].classList.add("snake");
     });
-    //  interval = setInterval(moveOutCome(), inteval_timer);
+    //interval = setInterval(moveOutCome(), interval_timer);
+    moveOutCome();
 }
 function moveOutCome() {
+    console.log("in moveOoutcome");
+    clearInterval(interval);
     let squares = document.querySelectorAll(".grid div");
     if (collisionCheck(squares) == false) {
         alert("You ran into something");
         popup.style.display = "flex";
-        return //resetInterval(interval);
+        clearInterval(interval);
+        return;
+        //return clearInterval(interval);
     } else {
         updateSnake(squares);
     }
@@ -57,7 +63,7 @@ function updateSnake(squares) {
     let tail = current_snake.pop();
     squares[tail].classList.remove("snake");
     current_snake.unshift(current_snake[0] + direction);
-    //check eat apple(squares, tail);
+    consumeApple(squares, tail);
     squares[current_snake[0]].classList.add("snake");
 }
 function collisionCheck(squares) {
@@ -95,11 +101,19 @@ function consumeApple(squares, tail) {
         randomApple(squares);
         score_value += 100;
         scoreDisplay.textContent = score_value;
-        //interval logic;
-        //. reset interval;
-        // update interval time;
-        // update interval;
     }
+    //interval logic;
+    clearInterval(interval);
+    // update interval time;
+    interval_timer = interval_timer; // decided not to increase game speed
+    // update interval;
+    interval = setInterval(moveOutCome, interval_timer);
+}
+function replay() {
+    grid.innerHTML ="";
+    createBoard();
+    startGame();
+    popup.style.display = "none";
 }
 function control(keypress) {
     if (keypress.keycode === 37) { // left arrow
@@ -108,8 +122,12 @@ function control(keypress) {
         direction = -10;
     } else if (keypress.keycode === 39) { // right arrow
         direction = 1;
-    } else if (keypress.keycode === 40) { // down arrow
+    } else if (keypress.keycode == 40) { // down arrow
         direction = 10;
     }
 }
 
+up.addEventListener("click", function() { direction = -10;});
+down.addEventListener("click", function() { direction = 10;});
+right.addEventListener("click", function() { direction = 1;});
+left.addEventListener("click", function() { direction = -1;});

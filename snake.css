@@ -20,6 +20,11 @@ body {
     outline: blueviolet;
 }
 
+.ScoreDisplay {
+    margin: 0 auto;
+    text-align: center;
+    justify-content:  center;
+}
 .grid div {
     width: 20px;
     height: 20px;
