@@ -19,10 +19,23 @@ let interval = 0;
 
 document.addEventListener("DOMContentLoaded", function() {
     document.addEventListener("keyup", control);
+    document.addEventListener('keydown', keyDownHandler, false);
     createBoard();
     startGame();
     retry.addEventListener("click", replay);
 });
+// this doesn't want to work either
+// and i'm not sure why
+function keyDownHandler (event) {
+    if (event.keycode == 37) 
+        direction = -1;
+    else if (event.keycode == 38)
+        direction = -10;
+    else if (event.keycode == 39)
+        direction = 1;
+    else if (event.keycode == 40)
+        direction = 10;
+}
 
 function createBoard() {
 popup.style.display = "none";
@@ -101,6 +114,7 @@ function consumeApple(squares, tail) {
         randomApple(squares);
         score_value += 100;
         scoreDisplay.textContent = score_value;
+        interval_timer = interval_timer * .8;
     }
     //interval logic;
     clearInterval(interval);
@@ -131,3 +145,14 @@ up.addEventListener("click", function() { direction = -10;});
 down.addEventListener("click", function() { direction = 10;});
 right.addEventListener("click", function() { direction = 1;});
 left.addEventListener("click", function() { direction = -1;});
+
+/* I'm not sure why this doesn'y work
+document.onkeydown = function(event) {
+    switch(event.keycode) {
+        case 37: direction = -1;
+        case 38: direction = -10;
+        case 39: direction = 1;
+        case 40: direction = 10;
+    }
+}
+*/
